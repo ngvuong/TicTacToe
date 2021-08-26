@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+main {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  height: 70%;
+  border: 1px solid black;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 50vmin;
+  height: 50vmin;
+  grid-auto-rows: 1fr;
+}
+
+.square {
+  /* width: 33%;
+  height: 33%; */
+  border: 1px solid red;
+}
