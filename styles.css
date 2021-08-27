@@ -26,13 +26,11 @@ main {
 .game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 50vmin;
-  height: 50vmin;
-  grid-auto-rows: 1fr;
+  width: 51vmin;
+  height: 51vmin;
 }
 
 .square {
-  /* width: 33%;
-  height: 33%; */
   border: 1px solid red;
+  box-shadow: 0 0 0 1px red;
 }
