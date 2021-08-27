@@ -20,9 +20,11 @@ const gameBoard = (() => {
   ];
 
   const sumBoard = () => {
+    let sum = [];
     for (let line of winningLines) {
-      let sum = board[line[0]] + board[line[1]] + board[line[2]];
+      sum.push(board[line[0]] + board[line[1]] + board[line[2]]);
     }
+    return sum;
   };
 
   const updateBoard = (position, player) => {
@@ -33,7 +35,7 @@ const gameBoard = (() => {
       return true;
     }
   };
-  return { board, updateBoard };
+  return { sumBoard, board, updateBoard };
 })();
 
 const Player = (player) => {

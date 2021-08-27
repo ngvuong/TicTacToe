@@ -34,7 +34,8 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 3em;
+  color: #ffcc20;
   border: 1px solid red;
   box-shadow: 0 0 0 1px red;
   line-height: 0;
