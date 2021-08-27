@@ -22,8 +22,10 @@ const gameBoard = (() => {
 
 const Player = (player) => {
   play = (target, position) => {
-    gameBoard.updateBoard(position, player);
-    target.textContent = player === 1 ? "X" : "O";
+    const board = gameBoard.updateBoard(position, player);
+    if (board[position] === 0) {
+      target.textContent = player === 1 ? "X" : "O";
+    }
   };
   return { play };
 };
@@ -34,13 +36,15 @@ const gameMaster = (() => {
   let turn = 1;
   const player1 = Player(1);
   const player2 = Player(2);
-
+  let currentPlayer;
+  function _getCurrentPlayer() {
+    return (currentPlayer = turn % 2 !== 0 ? player1 : player2);
+  }
   function takeTurn(e) {
     const target = this;
-    if (turn % 2 !== 0) {
-      player1.play(target, this.dataset.position);
-      // this.textContent =
-    } else player2.play(target, this.dataset.position);
+    currentPlayer = _getCurrentPlayer();
+    currentPlayer.play(target, this.dataset.position);
+
     turn++;
   }
 
