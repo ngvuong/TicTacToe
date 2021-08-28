@@ -13,6 +13,10 @@ const gameBoard = (() => {
     [2, 4, 6],
   ];
 
+  const add = (position) => {
+    const lines = winningLines.filter((line) => line.includes(position));
+  };
+
   const getLineValues = () => {
     let lineValues = [];
     for (let line of winningLines) {
@@ -64,16 +68,11 @@ const gameMaster = (() => {
     squares.forEach((square) => (square.textContent = ""));
     gameBoard.resetBoard();
   }
+
   restart.addEventListener("click", restartGame);
 
   function _getCurrentPlayer() {
     return turn % 2 !== 0 ? player1 : player2;
-  }
-
-  function _validateMove(position) {
-    let board = gameBoard.board;
-    if (board[position] === 0) {
-    }
   }
 
   function checkWinner() {
@@ -96,7 +95,7 @@ const gameMaster = (() => {
     if (turn > 9 && !isGameOver) console.log("It's a tie!");
   }
 
-  function takeTurn(e) {
+  function takeTurn() {
     if (!isGameOver) {
       const target = this;
       const position = this.dataset.position;
