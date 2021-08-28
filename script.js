@@ -1,13 +1,7 @@
+// The Game Board
 const gameBoard = (() => {
   const board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const playerTrackingBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  // _renderBoard = () => {
-  //   squares.forEach((square, i) => {
-  //     if (board[i] !== 0) {
-  //       square.textContent = board[i];
-  //     }
-  //   });
-  // };
+
   const winningLines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -27,60 +21,39 @@ const gameBoard = (() => {
     return arr;
   };
 
-  const sumBoard = () => {
-    let sum = [];
-    let playerSum = [];
-    for (let line of winningLines) {
-      sum.push(board[line[0]] + board[line[1]] + board[line[2]]);
-      playerSum.push(
-        playerTrackingBoard[line[0]] +
-          playerTrackingBoard[line[1]] +
-          playerTrackingBoard[line[2]]
-      );
-    }
-    return { sum, playerSum };
-    // let arr = [];
-    // for (line of winningLines) {
-    //   line.forEach((index) => {
-    //     arr.push(board[index]);
-    //   });
-    //   sum.push(arr);
-    // }
-    // return sum;
-  };
-
   const updateBoard = (position, player) => {
-    const targetValue = board[position];
-    if (targetValue === 0) {
+    if (!board[position]) {
       board[position] = player;
-      playerTrackingBoard[position] = player;
+
       return getLineValues();
     }
   };
-  return { sumBoard, board, updateBoard };
+  return { board, updateBoard };
 })();
 
+// The Players
 const Player = (player) => {
   play = (target, position) => {
-    const isUpdated = gameBoard.updateBoard(position, player);
-    if (isUpdated) {
+    const lineValues = gameBoard.updateBoard(position, player);
+    if (lineValues) {
       target.textContent = player === 1 ? "X" : "O";
     }
-    return isUpdated;
+    return lineValues;
   };
   return { play };
 };
 
 const squares = document.querySelectorAll(".square");
 
+// The GameMaster
 const gameMaster = (() => {
   let turn = 1;
   let isGameOver = false;
-  let currentPlayer;
   const player1 = Player(1);
   const player2 = Player(2);
+
   function _getCurrentPlayer() {
-    return (currentPlayer = turn % 2 !== 0 ? player1 : player2);
+    return turn % 2 !== 0 ? player1 : player2;
   }
 
   function _validateMove(position) {
@@ -92,32 +65,32 @@ const gameMaster = (() => {
   function checkWinner() {
     if (sum === 3) {
       console.log("Player 1 wins");
+      // return;
     } else if (sum === 6) {
       console.log("Player 2 wins");
     }
   }
 
-  let board = gameBoard.board;
   function checkGameState(values) {
-    // console.log(values);
     for (line of values) {
-      if (!line.includes(0)) {
+      if (!line.includes(0) && !isGameOver) {
         sum = line.reduce((sum, i) => sum + i, 0);
         if (sum === 3 || sum === 6) isGameOver = true;
         checkWinner(sum);
       }
     }
+    if (turn > 9 && !isGameOver) console.log("It's a tie!");
   }
 
   function takeTurn(e) {
     if (!isGameOver) {
       const target = this;
       const position = this.dataset.position;
-      currentPlayer = _getCurrentPlayer();
-      const isUpdated = currentPlayer.play(target, position);
-      if (isUpdated) {
+      player = _getCurrentPlayer();
+      const lineValues = player.play(target, position);
+      if (lineValues) {
         turn++;
-        checkGameState(isUpdated);
+        checkGameState(lineValues);
       }
     }
   }
