@@ -1,6 +1,6 @@
 // The Game Board
 const gameBoard = (() => {
-  const board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   const winningLines = [
     [0, 1, 2],
@@ -14,11 +14,11 @@ const gameBoard = (() => {
   ];
 
   const getLineValues = () => {
-    let arr = [];
-    for (line of winningLines) {
-      arr.push([board[line[0]], board[line[1]], board[line[2]]]);
+    let lineValues = [];
+    for (let line of winningLines) {
+      lineValues.push([board[line[0]], board[line[1]], board[line[2]]]);
     }
-    return arr;
+    return lineValues;
   };
 
   const updateBoard = (position, player) => {
@@ -28,7 +28,13 @@ const gameBoard = (() => {
       return getLineValues();
     }
   };
-  return { board, updateBoard };
+
+  const resetBoard = () => {
+    for (let i in board) {
+      board[i] = 0;
+    }
+  };
+  return { resetBoard, updateBoard };
 })();
 
 // The Players
@@ -51,6 +57,14 @@ const gameMaster = (() => {
   let isGameOver = false;
   const player1 = Player(1);
   const player2 = Player(2);
+  const restart = document.querySelector(".restart");
+
+  function restartGame() {
+    turn = 1;
+    squares.forEach((square) => (square.textContent = ""));
+    gameBoard.resetBoard();
+  }
+  restart.addEventListener("click", restartGame);
 
   function _getCurrentPlayer() {
     return turn % 2 !== 0 ? player1 : player2;
@@ -71,8 +85,8 @@ const gameMaster = (() => {
     }
   }
 
-  function checkGameState(values) {
-    for (line of values) {
+  function checkGameState(lineValues) {
+    for (let line of lineValues) {
       if (!line.includes(0) && !isGameOver) {
         sum = line.reduce((sum, i) => sum + i, 0);
         if (sum === 3 || sum === 6) isGameOver = true;
