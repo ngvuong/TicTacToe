@@ -1,6 +1,6 @@
 const gameBoard = (() => {
   const board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+  const playerTrackingBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   // _renderBoard = () => {
   //   squares.forEach((square, i) => {
   //     if (board[i] !== 0) {
@@ -12,27 +12,49 @@ const gameBoard = (() => {
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
-    [1, 3, 6],
+    [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
   ];
 
+  const getLineValues = () => {
+    let arr = [];
+    for (line of winningLines) {
+      arr.push([board[line[0]], board[line[1]], board[line[2]]]);
+    }
+    return arr;
+  };
+
   const sumBoard = () => {
     let sum = [];
+    let playerSum = [];
     for (let line of winningLines) {
       sum.push(board[line[0]] + board[line[1]] + board[line[2]]);
+      playerSum.push(
+        playerTrackingBoard[line[0]] +
+          playerTrackingBoard[line[1]] +
+          playerTrackingBoard[line[2]]
+      );
     }
-    return sum;
+    return { sum, playerSum };
+    // let arr = [];
+    // for (line of winningLines) {
+    //   line.forEach((index) => {
+    //     arr.push(board[index]);
+    //   });
+    //   sum.push(arr);
+    // }
+    // return sum;
   };
 
   const updateBoard = (position, player) => {
     const targetValue = board[position];
     if (targetValue === 0) {
       board[position] = player;
-      // _renderBoard();
-      return true;
+      playerTrackingBoard[position] = player;
+      return getLineValues();
     }
   };
   return { sumBoard, board, updateBoard };
@@ -67,17 +89,37 @@ const gameMaster = (() => {
     }
   }
 
-  function checkGameState() {}
+  function checkWinner() {
+    if (sum === 3) {
+      console.log("Player 1 wins");
+    } else if (sum === 6) {
+      console.log("Player 2 wins");
+    }
+  }
+
+  let board = gameBoard.board;
+  function checkGameState(values) {
+    // console.log(values);
+    for (line of values) {
+      if (!line.includes(0)) {
+        sum = line.reduce((sum, i) => sum + i, 0);
+        if (sum === 3 || sum === 6) isGameOver = true;
+        checkWinner(sum);
+      }
+    }
+  }
 
   function takeTurn(e) {
-    const target = this;
-    const position = this.dataset.position;
-    currentPlayer = _getCurrentPlayer();
-    const isUpdated = currentPlayer.play(target, position);
-    if (isUpdated) {
-      turn++;
+    if (!isGameOver) {
+      const target = this;
+      const position = this.dataset.position;
+      currentPlayer = _getCurrentPlayer();
+      const isUpdated = currentPlayer.play(target, position);
+      if (isUpdated) {
+        turn++;
+        checkGameState(isUpdated);
+      }
     }
-    checkGameState();
   }
 
   squares.forEach((square) => {
