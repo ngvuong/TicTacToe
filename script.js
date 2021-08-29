@@ -60,6 +60,7 @@ const Player = (player) => {
 };
 
 const squares = document.querySelectorAll(".square");
+const display = document.querySelector(".display");
 
 // The GameMaster
 const gameMaster = (() => {
