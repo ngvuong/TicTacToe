@@ -14,7 +14,13 @@ const gameBoard = (() => {
   ];
 
   const add = (position) => {
-    const lines = winningLines.filter((line) => line.includes(position));
+    // const lines = winningLines.findIndex((line) => line.includes(position));
+    let lines = [];
+    winningLines.forEach((line, i) => {
+      if (line.includes(position)) {
+        lines.push();
+      }
+    });
   };
 
   const getLineValues = () => {
@@ -28,7 +34,7 @@ const gameBoard = (() => {
   const updateBoard = (position, player) => {
     if (!board[position]) {
       board[position] = player;
-
+      console.log(add(parseInt(position)), position);
       return getLineValues();
     }
   };
