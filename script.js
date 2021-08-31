@@ -71,9 +71,10 @@ const gameMaster = (() => {
   const player1 = Player(1);
   const player2 = Player(2);
 
-  function displayWinner(player) {
-    const text = `Player ${player} wins!`;
+  function endGame(winner) {
+    const text = winner ? `Player ${winner} wins!` : `It's a tie!`;
     showDisplay(text);
+    isGameOver = true;
   }
 
   function showDisplay(text) {
@@ -95,24 +96,13 @@ const gameMaster = (() => {
     return turn % 2 !== 0 ? player1 : player2;
   }
 
-  function checkWinner() {
-    if (sum === 3) {
-      displayWinner(1);
-    } else if (sum === 6) {
-      displayWinner(2);
-    }
-  }
-
-  function checkGameState(lineValues) {
-    for (let line of lineValues) {
-      if (!line.includes(0) && !isGameOver) {
-        sum = line.reduce((sum, i) => sum + i, 0);
-        if (sum === 3 || sum === 6) isGameOver = true;
-        checkWinner(sum);
-      }
-    }
-
-    if (turn > 9 && !isGameOver) showDisplay("It's a Tie!");
+  function checkWinner(lineValues) {
+    const sum = lineValues
+      .filter((line) => !line.includes(0))
+      .map((line) => line.reduce((sum, i) => sum + i, 0));
+    if (sum.includes(3)) endGame(1);
+    if (sum.includes(6)) endGame(2);
+    if (turn > 9 && !isGameOver) endGame();
   }
 
   function takeTurn() {
@@ -123,14 +113,12 @@ const gameMaster = (() => {
       const lineValues = player.play(target, position);
       if (lineValues) {
         turn++;
-        checkGameState(lineValues);
       }
+      if (turn > 5) checkWinner(lineValues);
     }
   }
 
   squares.forEach((square) => {
     square.addEventListener("click", takeTurn);
   });
-
-  return { takeTurn };
 })();
