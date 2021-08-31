@@ -2,7 +2,7 @@
 const gameBoard = (() => {
   let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-  const winningLines = [
+  const lines = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -13,29 +13,30 @@ const gameBoard = (() => {
     [2, 4, 6],
   ];
 
-  const add = (position) => {
-    // const lines = winningLines.findIndex((line) => line.includes(position));
-    let lines = [];
-    winningLines.forEach((line, i) => {
-      if (line.includes(position)) {
-        lines.push();
-      }
-    });
+  let lineValues = [];
+  const resetLineValues = () => {
+    lineValues = [];
+    for (let i = 0; i < 9; i++) {
+      lineValues.push([0, 0, 0]);
+    }
   };
 
-  const getLineValues = () => {
-    let lineValues = [];
-    for (let line of winningLines) {
-      lineValues.push([board[line[0]], board[line[1]], board[line[2]]]);
-    }
+  resetLineValues();
+
+  const setLineValues = (position) => {
+    lines.forEach((line, i) => {
+      if (line.includes(position)) {
+        const index = line.indexOf(position);
+        lineValues[i][index] = board[position];
+      }
+    });
     return lineValues;
   };
 
   const updateBoard = (position, player) => {
     if (!board[position]) {
       board[position] = player;
-      console.log(add(parseInt(position)), position);
-      return getLineValues();
+      return setLineValues(parseInt(position));
     }
   };
 
@@ -43,6 +44,7 @@ const gameBoard = (() => {
     for (let i in board) {
       board[i] = 0;
     }
+    resetLineValues();
   };
   return { resetBoard, updateBoard };
 })();
@@ -74,7 +76,9 @@ const gameMaster = (() => {
     turn = 1;
     squares.forEach((square) => (square.textContent = ""));
     gameBoard.resetBoard();
-    display.classList.toggle("active");
+    isGameOver = false;
+    display.classList.add("active");
+    setTimeout(() => display.classList.remove("active"), 2500);
   }
 
   restart.addEventListener("click", restartGame);
@@ -86,6 +90,7 @@ const gameMaster = (() => {
   function checkWinner() {
     if (sum === 3) {
       console.log("Player 1 wins");
+      console.log(sum);
       // return;
     } else if (sum === 6) {
       console.log("Player 2 wins");

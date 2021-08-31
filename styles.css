@@ -5,14 +5,14 @@
 body {
   height: 100vh;
   margin: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(51, 49, 61, 0.7);
   overflow-y: hidden;
 }
 
 .title {
   text-align: center;
-  /* padding-top: 2rem; */
   margin: 3rem 0;
+  font-size: 3rem;
 }
 
 main {
@@ -54,14 +54,21 @@ main {
   position: fixed;
   transform: scale(0);
   left: 0;
+  top: 25%;
   width: 0;
+  font-size: 0;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.5);
-  transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out, font-size 0.3s ease-in-out;
 }
 
 .display.active {
   transform: scale(1);
   background-color: rgba(255, 255, 255, 0.5);
   width: 100%;
+  font-size: 1.5rem;
+}
+
+.restart {
+  margin: 1rem 0;
 }
