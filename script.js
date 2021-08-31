@@ -90,8 +90,6 @@ const gameMaster = (() => {
     isGameOver = false;
   }
 
-  restart.addEventListener("click", restartGame);
-
   function _getCurrentPlayer() {
     return turn % 2 !== 0 ? player1 : player2;
   }
@@ -118,6 +116,7 @@ const gameMaster = (() => {
     }
   }
 
+  restart.addEventListener("click", restartGame);
   squares.forEach((square) => {
     square.addEventListener("click", takeTurn);
   });

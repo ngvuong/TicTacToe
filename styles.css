@@ -33,10 +33,12 @@ main {
   justify-content: center;
   position: relative;
   align-items: center;
-  width: 90%;
+  width: 80%;
   height: 70%;
+
   background-image: linear-gradient(to right, grey 1px, transparent 1px);
-  background-size: 1rem;
+
+  background-size: 2vmin;
   background-color: white;
 }
 
@@ -58,8 +60,24 @@ main {
   font-size: 3em;
   color: #ffcc20;
   border: 2px solid black;
-  /* box-shadow: 0 0 0 1px black; */
   line-height: 0;
+}
+
+.square:nth-child(3n + 1),
+.square:nth-child(3n) {
+  border-left: none;
+  border-right: none;
+}
+
+.square:nth-child(-n + 3),
+.square:nth-child(n + 6) {
+  border-top: none;
+  border-bottom: none;
+}
+
+.square:nth-child(6) {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
 }
 
 .display {
@@ -84,4 +102,31 @@ main {
 
 .restart {
   margin: 1rem 0;
+  font-size: 2rem;
+  background-color: rgb(231, 86, 86);
+  border-radius: 0 30% 0 30%;
+  box-shadow: 10px 0px 0 rgb(231, 86, 86);
+  border-style: none;
+  cursor: pointer;
+}
+
+.restart:hover {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: none;
+  border-top: none;
+}
+
+@media (max-width: 625px) {
+  .game-area {
+    height: 60%;
+    background-image: linear-gradient(to bottom, grey 1px, transparent 1px);
+    background-size: 2vmin 2vmin;
+  }
+  .game-board {
+    width: 60vmin;
+    height: 60vmin;
+  }
+  .title {
+    font-size: 3rem;
+  }
 }
