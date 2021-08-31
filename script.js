@@ -61,24 +61,32 @@ const Player = (player) => {
   return { play };
 };
 
-const squares = document.querySelectorAll(".square");
-const display = document.querySelector(".display");
-
 // The GameMaster
 const gameMaster = (() => {
+  const restart = document.querySelector(".restart");
+  const squares = document.querySelectorAll(".square");
+  const display = document.querySelector(".display");
   let turn = 1;
   let isGameOver = false;
   const player1 = Player(1);
   const player2 = Player(2);
-  const restart = document.querySelector(".restart");
+
+  function displayWinner(player) {
+    const text = `Player ${player} wins!`;
+    showDisplay(text);
+  }
+
+  function showDisplay(text) {
+    display.textContent = text;
+    display.classList.add("active");
+    setTimeout(() => display.classList.remove("active"), 2000);
+  }
 
   function restartGame() {
     turn = 1;
     squares.forEach((square) => (square.textContent = ""));
     gameBoard.resetBoard();
     isGameOver = false;
-    display.classList.add("active");
-    setTimeout(() => display.classList.remove("active"), 2500);
   }
 
   restart.addEventListener("click", restartGame);
@@ -89,11 +97,9 @@ const gameMaster = (() => {
 
   function checkWinner() {
     if (sum === 3) {
-      console.log("Player 1 wins");
-      console.log(sum);
-      // return;
+      displayWinner(1);
     } else if (sum === 6) {
-      console.log("Player 2 wins");
+      displayWinner(2);
     }
   }
 
@@ -105,7 +111,8 @@ const gameMaster = (() => {
         checkWinner(sum);
       }
     }
-    if (turn > 9 && !isGameOver) console.log("It's a tie!");
+
+    if (turn > 9 && !isGameOver) showDisplay("It's a Tie!");
   }
 
   function takeTurn() {
