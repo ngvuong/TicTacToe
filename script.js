@@ -74,6 +74,7 @@ const gameMaster = (() => {
     turn = 1;
     squares.forEach((square) => (square.textContent = ""));
     gameBoard.resetBoard();
+    display.classList.toggle("active");
   }
 
   restart.addEventListener("click", restartGame);

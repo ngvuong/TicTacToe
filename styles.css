@@ -5,13 +5,21 @@
 body {
   height: 100vh;
   margin: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: hidden;
+}
+
+.title {
+  text-align: center;
+  /* padding-top: 2rem; */
+  margin: 3rem 0;
 }
 
 main {
   display: flex;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .game-area {
@@ -44,5 +52,16 @@ main {
 
 .display {
   position: fixed;
+  transform: scale(0);
+  left: 0;
+  width: 0;
+  text-align: center;
   background-color: rgba(255, 255, 255, 0.5);
+  transition: width 0.3s ease-in-out;
+}
+
+.display.active {
+  transform: scale(1);
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
 }
