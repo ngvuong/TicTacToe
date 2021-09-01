@@ -35,9 +35,7 @@ main {
   align-items: center;
   width: 80%;
   height: 70%;
-
   background-image: linear-gradient(to right, grey 1px, transparent 1px);
-
   background-size: 2vmin;
   background-color: white;
 }
