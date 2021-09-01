@@ -32,7 +32,7 @@ const gameBoard = (() => {
     lines.forEach((line, i) => {
       if (line.includes(position)) {
         const index = line.indexOf(position);
-        lineValues[i][index] = board[position];
+        lineValues[i][index] = _board[position];
       }
     });
     return lineValues;
@@ -40,15 +40,15 @@ const gameBoard = (() => {
 
   // Set board position if empty
   const updateBoard = (position, player) => {
-    if (!board[position]) {
-      board[position] = player;
+    if (!_board[position]) {
+      _board[position] = player;
       return _setLineValues(parseInt(position));
     }
   };
 
   // Reset the whole game
   const resetGame = () => {
-    board.forEach((e, i) => (board[i] = 0));
+    _board.forEach((e, i) => (_board[i] = 0));
     _resetLineValues();
   };
 
