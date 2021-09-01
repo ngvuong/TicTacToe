@@ -1,7 +1,7 @@
 // The Game Board
 const gameBoard = (() => {
   // Init board with positions
-  let board = Array(9).fill(0);
+  let _board = Array(9).fill(0);
 
   // Indices for valid lines
   const lines = [
@@ -21,14 +21,14 @@ const gameBoard = (() => {
     .map(() => Array(3).fill(0));
 
   // Reset line values to all 0
-  const resetLineValues = () => {
+  const _resetLineValues = () => {
     lineValues.forEach((line, index) => {
       line.forEach((value, i) => (lineValues[index][i] = 0));
     });
   };
 
   // Set line values to corresponding board value
-  const setLineValues = (position) => {
+  const _setLineValues = (position) => {
     lines.forEach((line, i) => {
       if (line.includes(position)) {
         const index = line.indexOf(position);
@@ -42,14 +42,14 @@ const gameBoard = (() => {
   const updateBoard = (position, player) => {
     if (!board[position]) {
       board[position] = player;
-      return setLineValues(parseInt(position));
+      return _setLineValues(parseInt(position));
     }
   };
 
   // Reset the whole game
   const resetGame = () => {
     board.forEach((e, i) => (board[i] = 0));
-    resetLineValues();
+    _resetLineValues();
   };
 
   return { resetGame, updateBoard };
