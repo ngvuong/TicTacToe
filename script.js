@@ -1,6 +1,6 @@
 // The Game Board
 const gameBoard = (() => {
-  let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let board = Array(9).fill(0);
 
   const lines = [
     [0, 1, 2],
@@ -13,15 +13,15 @@ const gameBoard = (() => {
     [2, 4, 6],
   ];
 
-  let lineValues = [];
-  const resetLineValues = () => {
-    lineValues = [];
-    for (let i = 0; i < 9; i++) {
-      lineValues.push([0, 0, 0]);
-    }
-  };
+  let lineValues = Array(8)
+    .fill(null)
+    .map(() => Array(3).fill(0));
 
-  resetLineValues();
+  const resetLineValues = () => {
+    lineValues.forEach((line, index) => {
+      line.forEach((value, i) => (lineValues[index][i] = 0));
+    });
+  };
 
   const setLineValues = (position) => {
     lines.forEach((line, i) => {
@@ -40,13 +40,12 @@ const gameBoard = (() => {
     }
   };
 
-  const resetBoard = () => {
-    for (let i in board) {
-      board[i] = 0;
-    }
+  const resetGame = () => {
+    board.forEach((e, i) => (board[i] = 0));
     resetLineValues();
   };
-  return { resetBoard, updateBoard };
+
+  return { resetGame, updateBoard };
 })();
 
 // The Players
@@ -86,7 +85,7 @@ const gameMaster = (() => {
   function restartGame() {
     turn = 1;
     squares.forEach((square) => (square.textContent = ""));
-    gameBoard.resetBoard();
+    gameBoard.resetGame();
     isGameOver = false;
   }
 
@@ -112,7 +111,7 @@ const gameMaster = (() => {
       if (lineValues) {
         turn++;
       }
-      if (turn > 5) checkWinner(lineValues);
+      if (turn > 5 && lineValues) checkWinner(lineValues);
     }
   }
 

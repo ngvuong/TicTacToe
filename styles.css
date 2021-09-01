@@ -15,7 +15,7 @@ body {
   text-align: center;
   font-size: 4rem;
   margin: 0;
-  padding: 3rem 0;
+  padding: 3rem 0 2rem 0;
   text-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5), 0 5px 0 rgba(0, 0, 0, 0.5);
   color: #ffcc20;
 }
@@ -96,13 +96,13 @@ main {
   transform: scale(1);
   background-color: rgba(94, 82, 82, 0.5);
   width: 100%;
-  font-size: 5rem;
+  font-size: 6rem;
   font-style: italic;
 }
 
 .restart {
   margin: 1rem 0;
-  font-size: 2rem;
+  font-size: 5vmin;
   background-color: rgb(231, 86, 86);
   border-radius: 0 30% 0 30%;
   box-shadow: 10px 0px 0 rgb(231, 86, 86);
@@ -116,9 +116,9 @@ main {
   border-top: none;
 }
 
-@media (max-width: 625px) {
+@media (max-width: 775px) {
   .game-area {
-    height: 60%;
+    height: 65%;
     background-image: linear-gradient(to bottom, grey 1px, transparent 1px);
     background-size: 2vmin 2vmin;
   }
@@ -128,5 +128,19 @@ main {
   }
   .title {
     font-size: 3rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .game-area {
+    height: 50%;
+    width: 100%;
+  }
+  .game-board {
+    width: 90vmin;
+    height: 90vmin;
+  }
+  .title {
+    font-size: 2rem;
   }
 }
